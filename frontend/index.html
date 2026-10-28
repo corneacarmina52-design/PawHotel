@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>PawHotel</title>
+</head>
+<body>
+    <h1>🐾 PawHotel</h1>
+    <p id="mesaj">Se încarcă...</p>
+
+    <script>
+        fetch("/api/salut")
+            .then(raspuns => raspuns.json())
+            .then(date => {
+                document.getElementById("mesaj").textContent = date.mesaj;
+            });
+    </script>
+</body>
+</html>
