@@ -1,33 +1,38 @@
 #include <iostream>
+#include <memory>
 #include "Caine.h"
 #include "Pisica.h"
+#include "CameraStandard.h"
 #include "CameraPremium.h"
-#include "Rezervare.h"
+#include "Hotel.h"
 
 int main() {
-    Caine rex("Rex", "Ciobanesc German", "Mascul", 5, "Alergic la pui", true);
-    Pisica tom("Tom", "Europeana", "Mascul", 3, "Nu are", true);
-    CameraPremium camera(1);
+    Hotel hotel;
+
+    hotel.adaugaCamere(std::make_unique<CameraStandard>(1));
+    hotel.adaugaCamere(std::make_unique<CameraStandard>(2));
+    hotel.adaugaCamere(std::make_unique<CameraPremium>(3));
+
+    const Animal* rex = hotel.adaugaAnimal(std::make_unique<Caine>(
+        "Rex", "Ciobanesc German", "Mascul", 5, "Alergic la pui", true));
+    const Animal* tom = hotel.adaugaAnimal(std::make_unique<Pisica>(
+        "Tom", "Europeana", "Mascul", 3, "Nu are", true));
 
     try {
-        Rezervare r1(&rex, &camera, 3);
-        std::cout << "Rezervare reusita pentru " << rex.getNume()
-                  << ", total: " << r1.calculeazaTotal() << " lei\n";
-
-        try {
-            Rezervare r2(&tom, &camera, 2);
-        } catch (const std::exception& e) {
-            std::cout << "Eroare: " << e.what() << "\n";
-        }
-
-        r1.anuleaza();
-        std::cout << "Rezervarea lui Rex a fost anulata\n";
-
-        Rezervare r3(&tom, &camera, 2);
-        std::cout << "Rezervare reusita pentru " << tom.getNume()
-                  << ", total: " << r3.calculeazaTotal() << " lei\n";
+        hotel.rezerva(rex, "Standard", 3);
+        hotel.rezerva(tom, "Standard", 2);
+        hotel.rezerva(tom, "Standard", 1);  // nu mai sunt camere standard libere
     } catch (const std::exception& e) {
-        std::cout << "Eroare neasteptata: " << e.what() << "\n";
+        std::cout << "Eroare: " << e.what() << "\n";
     }
+
+    hotel.afiseazaRezervarea();
+
+    hotel.anuleazaRezervarea(0);
+    hotel.rezerva(tom, "Standard", 1);
+
+    std::cout << "\nDupa anulare si rezervare noua:\n";
+    hotel.afiseazaRezervarea();
+
     return 0;
 }
