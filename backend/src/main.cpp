@@ -1,38 +1,33 @@
 #include <iostream>
-#include <memory>
-#include <vector>
 #include "Caine.h"
 #include "Pisica.h"
-#include "CameraStandard.h"
 #include "CameraPremium.h"
+#include "Rezervare.h"
 
-int main()
-{
-     std::vector<std::unique_ptr<Animal>> animale;
-     animale.push_back(std::make_unique<Caine>(
-          "Pit", "Bichon", "Mascul",3,"Alergic la pliculete", true));
-     animale.push_back(std::make_unique<Pisica>(
-          "Puffy", "British", "Femela",7,"Nu are", true));
-     
-     for( const auto& a : animale)
-     {
-          std::cout<< a->tip() <<" : "<<a->getNume()<<" ( " <<a->getRasa()<<" , "<<a->getVarsta()<<" ani)\n";
-     }
+int main() {
+    Caine rex("Rex", "Ciobanesc German", "Mascul", 5, "Alergic la pui", true);
+    Pisica tom("Tom", "Europeana", "Mascul", 3, "Nu are", true);
+    CameraPremium camera(1);
 
-     std::vector<std::unique_ptr<Camera>> camere;
-     camere.push_back(std::make_unique<CameraStandard>(1));
-     camere.push_back(std::make_unique<CameraStandard>(2));
-     camere.push_back(std::make_unique<CameraPremium>(3));
+    try {
+        Rezervare r1(&rex, &camera, 3);
+        std::cout << "Rezervare reusita pentru " << rex.getNume()
+                  << ", total: " << r1.calculeazaTotal() << " lei\n";
 
-     camere[0]->ocupa();
-     for (const auto& c : camere) {
-          std::cout << "Camera " << c->getNumar()
-                    << " (" << c->tip() << ") - "
-                    << c->pretPeNoapte() << " lei/noapte - "
-                    << (c->getOcupata() ? "ocupata" : "libera") << "\n";
-     }
-     return 0;    
+        try {
+            Rezervare r2(&tom, &camera, 2);
+        } catch (const std::exception& e) {
+            std::cout << "Eroare: " << e.what() << "\n";
+        }
 
+        r1.anuleaza();
+        std::cout << "Rezervarea lui Rex a fost anulata\n";
 
-     return 0;
-}    
+        Rezervare r3(&tom, &camera, 2);
+        std::cout << "Rezervare reusita pentru " << tom.getNume()
+                  << ", total: " << r3.calculeazaTotal() << " lei\n";
+    } catch (const std::exception& e) {
+        std::cout << "Eroare neasteptata: " << e.what() << "\n";
+    }
+    return 0;
+}
