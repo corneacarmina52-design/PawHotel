@@ -1,17 +1,31 @@
-<!DOCTYPE html>
-<html lang="ro">
+<!DOCTYPE html>  <!-- Document HTML modern -->
+<html lang="ro"> <!-- Conținutul e în română -->
 <head>
-    <meta charset="UTF-8">
-    <title>PawHotel</title>
+    <meta charset="UTF-8">  <!-- Permite diacritice și emoji -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Pagina se adaptează pe telefon -->
+    <title>PawHotel</title> <!-- Textul din tab-ul browserului -->
+    <link rel="stylesheet" href="style.css"> <!-- Leagă fișierul de design -->
 </head>
 <body>
-    <h1>🐾 PawHotel</h1>
-    <p id="mesaj">Se încarcă...</p>
+    <main class="card"> <!-- Cardul alb din mijloc; "card" se leagă de .card din CSS -->
+        <h1>🐾 PawHotel</h1>
+        <p>Hotel pentru câini și pisici</p>
+
+        <div class="butoane"> <!-- Container pentru cele două butoane -->
+            <!-- Un link (<a>) care arată ca un buton prin clasa "btn" -->
+            <a href="vizita.html" class="btn btn-secundar">Vizitează</a>
+            <a href="register.html" class="btn">Fă o rezervare</a>
+        </div>
+
+        <p id="mesaj" class="status"></p> <!-- Aici JavaScript scrie răspunsul serverului -->
+    </main>
 
     <script>
+        // Cere de la serverul C++ mesajul de la adresa /api/salut
         fetch("/api/salut")
-            .then(raspuns => raspuns.json())
+            .then(raspuns => raspuns.json())   // transformă răspunsul din text JSON în obiect
             .then(date => {
+                // pune mesajul primit în paragraful cu id="mesaj"
                 document.getElementById("mesaj").textContent = date.mesaj;
             });
     </script>

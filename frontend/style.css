@@ -1,12 +1,60 @@
+/* Stilul întregii pagini */
+body {
+    font-family: system-ui, sans-serif; /* fontul implicit al sistemului */
+    background: #f4efe9;                /* culoare de fundal crem */
+    margin: 0;                          /* elimină marginea implicită */
+    min-height: 100vh;                  /* pagina are măcar înălțimea ecranului */
+    display: flex;                      /* aranjare flexibilă */
+    align-items: center;                /* centrare pe verticală */
+    justify-content: center;            /* centrare pe orizontală */
+}
+
+/* Cardul alb din mijloc */
+.card {
+    background: white;
+    padding: 40px;                          /* spațiu în interior */
+    border-radius: 16px;                    /* colțuri rotunjite */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1); /* umbră ușoară */
+    text-align: center;
+    max-width: 420px;                       /* lățime maximă */
+}
+
+h1 { margin: 0 0 8px; color: #3d2b1f; }
+
+/* Rândul cu butoane */
+.butoane {
+    display: flex;
+    gap: 12px;                 /* spațiu între butoane */
+    justify-content: center;
+    margin-top: 24px;
+}
+
+/* Un link care arată ca un buton */
+.btn {
+    background: #e07a3f;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;     /* scoate sublinierea */
+    font-weight: 600;
+}
+
+.btn:hover { opacity: 0.9; }   /* se estompează puțin când treci cu mouse-ul */
+
+.btn-secundar { background: #8a6f5a; } /* varianta maro, suprascrie culoarea */
+
+.status { color: #888; font-size: 0.9rem; margin-top: 20px; }
+
+/* Formularele (le folosim la pasul următor) */
 .formular {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    /* câmpurile unul sub altul */
     gap: 8px;
     text-align: left;
     margin-top: 20px;
 }
 
-.formular input {
+.formular input, .formular select, .formular textarea {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
