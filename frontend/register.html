@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cont - PawHotel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="card">
+        <h1>Contul tău</h1>
+        <p>Poți continua cu datele de mai jos sau le poți schimba.</p>
+
+        <form id="formular" class="formular">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="client@pawhotel.com">
+
+            <label for="parola">Parolă</label>
+            <input type="password" id="parola" value="parola123">
+
+            <button type="submit" class="btn">Continuă</button>
+        </form>
+
+        <p id="mesaj" class="status"></p>
+        <a href="index.html">Înapoi</a>
+    </main>
+
+    <script>
+        document.getElementById("formular").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const date = new URLSearchParams({
+                email: document.getElementById("email").value,
+                parola: document.getElementById("parola").value
+            });
+
+            const raspuns = await fetch("/api/register", { method: "POST", body: date });
+            if (raspuns.ok) {
+                window.location.href = "chestionar.html";
+            } else {
+                document.getElementById("mesaj").textContent = "A apărut o eroare.";
+            }
+        });
+    </script>
+</body>
+</html>
